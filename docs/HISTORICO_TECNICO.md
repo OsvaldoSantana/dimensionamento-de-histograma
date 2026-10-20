@@ -20,8 +20,17 @@ Restrição de todas as versões: arquivo único `index.html`, sem build e sem d
 | 1.9.0 | 332.927 bytes | ce84cdb6b8f8e106 | 1.8.0 + cabeçalho em destaque, dados em blocos JSON, índice, validarDados, testes (gerada por `v190.py`; última gerada por script) |
 | 1.10.0 | ver Release v1.10.0 | ver etiqueta | 1.9.0 + encadear composições no Cronograma (editada direto no repositório) |
 | 1.11.0 | ver Release v1.11.0 | ver etiqueta | 1.10.0 + densidade e uso do espaço |
+| 1.12.0 | ver Release v1.12.0 | ver etiqueta | 1.11.0 + busca rápida (Ctrl+K) e Colar do Excel |
 
 ---
+
+## 1.12.0 — 20/10/2026 · Busca rápida (Ctrl+K) e Colar do Excel
+
+- **§18 Busca rápida** (nova seção no fim do script): `#cmdk` (caixa `#cmdk-q` com `role=combobox`, lista `#cmdk-l` com `role=listbox` e `aria-activedescendant`). `cmdkFontes(q)` monta as fontes: Ações (Nova, Adicionar atividade da base, Colar do Excel, Duplicar, Encadear se `cronSel.size>1`, Desfazer/Refazer se houver pilha, Exportar .csv/.json, Abrir projeto, Novidades), Ir para (abas de `ABAS`), Composições do projeto (ponto `discCor`) e, com 2+ caracteres, atividades da base (`pickAct` na composição aberta). Sem projeto: só abas de base, Abrir projeto e Novidades; projeto só de leitura: sem ações de edição. `cmdkFiltra`: sem acento, por palavras (todas precisam aparecer em título+subtítulo+palavras-chave); nota 0 começa com a frase, 1 contém, 2 título contém todas, 3 só no subtítulo; grupos ordenados pela melhor nota; até 40 atividades da base e 60 itens por grupo. Teclas: ↑ ↓ PageUp/PageDown Enter Esc; clique; Ctrl/⌘+K abre e fecha (escuta em captura, também dentro de campos; ignorado com `#uidlg` ou `#syncdlg` abertos). `abrirComp(id)` limpa filtro de disciplina/busca da lista se esconderem a composição.
+- `ABAS` vira constante global (antes lista local em `render()`); botão `.cmdk-btn` na barra das abas (lupa SVG inline + "Buscar Ctrl K" acima de 720 px).
+- **Colar do Excel (§9)**: `numBR` (pt-BR: `1.234,5`→`1234.5`, `0,30`→`0.30`, `1.250`→`1250`; formato com ponto decimal mantido), `lerColagem(txt, comp)` (separador tab ou `;`; cabeçalho reconhecido por "Código/Cód." com coluna "Fórmula" ou, na falta, "Quantidade/Qtd"; sem cabeçalho, o código é a 1ª célula que existe na base ou tem forma `AAA-0000`, e a fórmula é a 1ª célula seguinte que compila em `compileExpr` e só usa identificadores da composição ou funções; sem fórmula → `1`, contada em `semQtd`; códigos fora da base em `fora`; linhas sem código em `sem`). `colarExcel(txt?)`: caixa com `textarea` quando chamado pelo botão; conferência (`uiDialog` `wide`+`mono`) com até 12 linhas, avisos e botões Cancelar / Substituir as atuais / Adicionar ao final. Evento `paste` no documento: só na aba Composições, fora de `input/textarea/select/contenteditable`, sem janela aberta, projeto editável e com pelo menos um código reconhecido.
+- `uiDialog`: campo `type:'textarea'` (com `rows`), opções `wide` (700 px) e `mono` (mensagem em fonte monoespaçada com rolagem); `vals`, foco inicial e Tab circular incluem `textarea`.
+- Testes (`testes/rodar.py`): itens 6 (Ctrl+K: abre com foco, "cronog"→Cronograma, nome→composição, `civ-0001`→atividade adicionada, Ctrl+Z, Esc) e 7 (`lerColagem` com e sem cabeçalho, vírgula decimal, milhar, código fora da base, quantidade vazia). Nenhum número muda (referência 1.9.0).
 
 ## 1.11.0 — 20/10/2026 · Densidade e uso do espaço
 
