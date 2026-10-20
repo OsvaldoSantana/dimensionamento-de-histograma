@@ -22,8 +22,34 @@ Restrição de todas as versões: arquivo único `index.html`, sem build e sem d
 | 1.11.0 | ver Release v1.11.0 | ver etiqueta | 1.10.0 + densidade e uso do espaço |
 | 1.12.0 | ver Release v1.12.0 | ver etiqueta | 1.11.0 + busca rápida (Ctrl+K) e Colar do Excel |
 | 1.13.0 | ver Release v1.13.0 | ver etiqueta | 1.12.0 + verificação do projeto e prazo contratual |
+| 1.13.1 | ver Release v1.13.1 | ver etiqueta | 1.13.0 + desempenho (sem mudança visual) |
 
 ---
+
+## 1.13.1 — 20/10/2026 · Desempenho (sem mudança visual)
+
+Diagnóstico (Chromium, Firebase simulado; mediana de 5 repetições, Event Timing = do clique até a tela pronta). Cenário-alvo decidido com o Osvaldo: até ~40 composições e ~2 anos, notebook corporativo comum (meta < 200 ms na velocidade normal, com folga em CPU 4× mais lenta).
+
+| Interação (ms) | 38 · 1× | 38 · 4× | 152 · 1× | 152 · 4× |
+|---|---|---|---|---|
+| Abrir Cronograma | 72 → 80 | 312 → 296 | 312 → 248 | 1 408 → 1 112 |
+| Abrir Histograma | 96 → 80 | 352 → 304 | 512 → 360 | 1 776 → 1 048 |
+| Abrir Base de atividades | 144 → 48 | 544 → 176 | 136 → 56 | 496 → 168 |
+| Abrir Composições | 32 → 40 | 136 → 144 | 64 → 64 | 224 → 240 |
+| Editar entrada | 40 → 48 | 128 → 128 | 64 → 64 | 272 → 192 |
+| Editar predecessora | 88 → 80 | 280 → 312 | 304 → 288 | 1 528 → 1 072 |
+| Tecla na busca da Base | 32 → 16 | 112 → 40 | 24 → 16 | 96 → 32 |
+
+(Diferenças de ±8–16 ms são ruído: o Event Timing arredonda para 8 ms.) Sem problema: carga (~115 KB gzip + Firebase ~150 KB, cache de 1 ano), projeto salvo 40 KB (limite do Firestore 1 MiB ≈ 900 composições), verificação 1–10 ms, Ctrl+K 1–3 ms por tecla.
+
+- **Formatadores reaproveitados:** `fmt`, `fmtCsv`, `fmtCoef`, `fmtV` passam a usar `Intl.NumberFormat` em cache (`nf(chave, opções)`) em vez de `toLocaleString` a cada número (24 µs → 1 µs; saída idêntica, conferida em 20 mil números e no teste 9). Rótulos de mês do Gantt com `Intl.DateTimeFormat` em cache (`mesAno`).
+- **Base de atividades:** `baseRows()` monta todas as linhas uma vez por tela (`baseRowHtml`, `data-i`) e filtrar só alterna `hidden` (`baseOk`); a contagem vem dos dados. As primeiras 60 linhas entram na hora e o resto em blocos de 60 por `setTimeout(0)` (cancelado se a tela for redesenhada: `tb._gen`). Linha "Nenhuma atividade…" fixa (`#bvazio`). Corrigido `all.indexOf(a)` dentro do `map` (O(n²)).
+- **Copiar tabela (§17):** ignora linhas escondidas (`hidden`), para a cópia continuar igual ao que está na tela com a busca.
+- **Gantt:** grade, rótulos de mês/dia/semana, nomes e barras com classes (`.gg .gm .gd .gw .gn .gb`) e variáveis CSS no contêiner (`--gh --cw --nw`); só `left`/`top`/`width`/cor ficam inline. Mesmos elementos, aparência idêntica (prints antes/depois pixel a pixel nas 4 escalas, 1.366 e 390 px).
+- **`setTab`:** o ajuste de rolagem da barra de abas vai para o próximo quadro (`requestAnimationFrame`), sem forçar layout dentro do clique.
+- Prints antes/depois idênticos em Composições, Cronograma (dia, semana, mês, ajustar), Histograma (dia, mês) e Base; única diferença: ~1 px na posição do texto do cabeçalho da tabela da Base em 390 px (largura automática da coluna).
+- Limite natural restante: toda alteração redesenha a aba inteira (arquitetura). No cenário-alvo o pior caso fica em ~80 ms (1×) e ~300 ms (4×: Cronograma, Histograma e editar predecessora).
+- **Teste 9 (`rodar.py`):** desenho por aba no cenário-alvo (mediana de 5, com layout) com limites comp 120 / cron 300 / hist 200 / base 200 ms; tecla na busca da Base ≤ 25 ms; elementos por aba (comp 900, cron 2.300, hist 2.000, base 4.200); `fmt` igual a `toLocaleString`. Imprime a linha `DESEMPENHO` a cada execução. A 1.13.0 falha no limite da busca. Nenhum número muda (referência 1.9.0).
 
 ## 1.13.0 — 20/10/2026 · Verificação do projeto e prazo contratual
 

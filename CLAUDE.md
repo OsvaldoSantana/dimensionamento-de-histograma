@@ -68,6 +68,10 @@ Volga Arthur/
   dentro de uma aba existente (ex.: uma futura tabela única de entradas fica dentro de Parâmetros).
 - Janelas: `uiDialog({title, msg, fields, buttons, wide, mono})` (campos `input`, `select` com `opts` ou
   `textarea`); atalhos `ask`, `askText`, `askForm`; avisos com `toast(msg, tipo)` (`alert()` já cai no `toast`). Não usar `prompt`/`confirm` do navegador.
+- Desempenho (1.13.1): números sempre por `fmt`/`fmtCsv`/`fmtCoef`/`fmtV` (formatadores em cache via `nf()`;
+  não usar `toLocaleString` dentro de laços); filtros de listas grandes escondem linhas em vez de redesenhar
+  (modelo: `baseRows`); estilos repetidos em classe, não em `style` inline (modelo: Gantt). O teste 9 do
+  `rodar.py` mede o cenário-alvo (38 composições, ~2 anos) e falha se uma aba passar do limite.
 - Fórmulas: avaliador próprio (`compileExpr`, sem `eval`); identificadores das entradas e parâmetros, mais
   `sqrt ceil floor max min PI` e `+ - * / ** ( ) < > ? :`.
 - Disciplinas e cores: `DISC_COR` / `discKey()` (civil terracota, eletromecânica azul, instalações âmbar,
@@ -116,6 +120,6 @@ Volga Arthur/
 
 `python testes/rodar.py <index.html>` abre o arquivo num Chromium com o Firebase simulado (nada vai para a
 nuvem), percorre as abas, roda `validarDados()`, compara HH/duração/dias das 38 composições com a referência,
-confere a tela Composições, a busca rápida (Ctrl+K), a leitura do Colar do Excel, a verificação do projeto e a
-largura em 390 px.
+confere a tela Composições, a busca rápida (Ctrl+K), a leitura do Colar do Excel, a verificação do projeto, o
+desempenho (linha DESEMPENHO com os tempos de cada aba) e a largura em 390 px.
 Requisitos em `testes/requisitos.txt`.
