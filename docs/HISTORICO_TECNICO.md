@@ -19,8 +19,19 @@ Restrição de todas as versões: arquivo único `index.html`, sem build e sem d
 | 1.8.0 | 325.128 bytes | 412102b1691b47ef | 1.7.0 + lista/tabela/cores, sem avisos, pendências decididas (gerada por `v180.py`) |
 | 1.9.0 | 332.927 bytes | ce84cdb6b8f8e106 | 1.8.0 + cabeçalho em destaque, dados em blocos JSON, índice, validarDados, testes (gerada por `v190.py`; última gerada por script) |
 | 1.10.0 | ver Release v1.10.0 | ver etiqueta | 1.9.0 + encadear composições no Cronograma (editada direto no repositório) |
+| 1.11.0 | ver Release v1.11.0 | ver etiqueta | 1.10.0 + densidade e uso do espaço |
 
 ---
+
+## 1.11.0 — 20/10/2026 · Densidade e uso do espaço
+
+- `main` até 2.200 px (antes 1.680 px).
+- `.kpis/.kpi` (Cronograma, Histograma, Parâmetros): faixa única com bordas internas, número 20 px e rótulo ao lado (`align-items:baseline`); fundo do cartão transparente (o fundo vermelho inline de "acima do limite" continua valendo).
+- Lista lateral: `.side-top` com "+ Nova" e o filtro de disciplina numa linha; itens `.side .list .it` em uma linha (ponto `.dot` na cor da disciplina, nome com reticências e `title` completo, `.ok` ✓ se `usar`, setas só no hover/selecionado). Busca escondida abaixo de 900 px (lá a lista vira o seletor "Composição").
+- Cabeçalho da composição: `.chead-t` (disciplina, Duplicar, Excluir) dentro de `.chead-r`, na linha do título; `select.cdisc` até 190 px; `.cstat` com número e rótulo lado a lado.
+- "Dados de entrada" dentro de `.ins`; "Atividades (n)" dentro da `.tbl-bar`; `table.acts td` com padding 5×8.
+- Cronograma: `.gtools` com escala (`.gz`) e legenda na mesma linha.
+- Testes: referência 1.9.0 OK; 1.920, 1.366 e 390 px conferidos por captura; altura da tela Composições em 1.920 px de 2.232 para 1.885 px.
 
 ## 1.10.0 — 20/10/2026 · Encadear composições
 
