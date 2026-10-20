@@ -21,8 +21,21 @@ Restrição de todas as versões: arquivo único `index.html`, sem build e sem d
 | 1.10.0 | ver Release v1.10.0 | ver etiqueta | 1.9.0 + encadear composições no Cronograma (editada direto no repositório) |
 | 1.11.0 | ver Release v1.11.0 | ver etiqueta | 1.10.0 + densidade e uso do espaço |
 | 1.12.0 | ver Release v1.12.0 | ver etiqueta | 1.11.0 + busca rápida (Ctrl+K) e Colar do Excel |
+| 1.13.0 | ver Release v1.13.0 | ver etiqueta | 1.12.0 + verificação do projeto e prazo contratual |
 
 ---
+
+## 1.13.0 — 20/10/2026 · Verificação do projeto e prazo contratual
+
+- **§19 Verificação do projeto** (nova seção no fim do script). `verificarProjeto()` percorre só `usedComps()` e devolve itens `{sev:'err'|'warn', key, tipo, cid, nome, txt, ir, ignoravel, ign}`, ordenados erros → avisos e pela ordem das composições.
+  - Erros (`tipo`): `form` fórmula de atividade com erro (`compEval().err`), `var` parâmetro com erro (`varErr`), `base` código fora da base (`findAct`), `neg` quantidade < 0, `vrem` predecessora removida, `vfora` predecessora com `usar=false`, `ciclo` (`dependsOn`).
+  - Avisos: `ent` entrada numérica vazia ou 0 cujo identificador aparece em alguma fórmula (parâmetros, atividades ou `by`); `q1` atividade com fórmula exatamente `1` e unidade fora de `UN_CONTAVEL` (und, un, unid, pç, cj, vb, verba, jogo, kit); `dur0` duração 0 (só se a composição não tiver erro); `solta` sem `preds` e sem `inicio`, menos a primeira dessas na ordem da lista; `prazo` término (`max(schedule()[id].fim)`) depois de `S.params.prazo`, não ignorável.
+  - Chaves estáveis por id da composição + código + ocorrência (não pela linha), para o "Ignorar" sobreviver a reordenação. Ignorados em `S.verifIgn` (lista de chaves; campo novo opcional, projetos antigos abrem sem conversão).
+- Botão `.vf-btn` na barra (só com projeto aberto), contador `.vf-n` (`err` vermelho com nº de erros; `warn` âmbar com nº de avisos não ignorados; `ok` ✓). `render()` chama `agendaVerif()` (120 ms de espera, recalcula e atualiza só o botão); estado em `vfCont` (declarado no §1 para o `render()` inicial). Custo medido: ~3 ms com as 38 composições no cronograma; `render()` médio 21 ms.
+- `showVerif()` usa `dialog()`/`dialogHeader()`; itens agrupados por tipo (`VF_TIPOS`) em `<details>` (abertos até 6 itens; estado em `vfAbertos`); "Avisos ignorados" recolhido. `verifIr(i)` fecha e chama `irAtv/irEnt/irPar/irCron` (abre a composição ou a aba e marca o campo com `.vf-alvo` por 2,4 s, com foco). `verifIgnorar(i, v)` grava e reabre a lista (Ctrl+Z desfaz).
+- **Prazo contratual**: `S.params.prazo` (`YYYY-MM-DD` ou vazio) em Parâmetros (`#par-prazo`, aplica no blur/Enter; recusa ano fora de 1900–2200 e data ≤ início), com "N dias corridos após o início". Cronograma ganha um indicador "Dias de folga até o prazo" / "Dias além do prazo" (vermelho) quando há prazo.
+- Ctrl+K: ação "Verificar projeto" (subtítulo com a contagem).
+- Testes: item 8 do `rodar.py` (erros plantados achados, contador 2 em vermelho, Ignorar tira da contagem, prazo estourado apontado; volta ao projeto padrão antes do teste de 390 px). Nenhum número muda (referência 1.9.0).
 
 ## 1.12.0 — 20/10/2026 · Busca rápida (Ctrl+K) e Colar do Excel
 

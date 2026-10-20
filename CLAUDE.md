@@ -61,7 +61,11 @@ Volga Arthur/
 - **Script principal**: índice no topo; seções `§1` a `§18` (procure "═══ §"). Cálculo puro em §3–§5
   (`compEval`, `compCalc`, `schedule`, `histo`); telas em §6–§12; nuvem em §13–§15; `validarDados()` em §16;
   copiar tabela em §17; busca rápida Ctrl+K em §18 (`cmdkFontes` lista o que pode ser buscado — ação nova
-  que o usuário repete deve entrar lá). Colar do Excel (`lerColagem`, `colarExcel`) fica em §9.
+  que o usuário repete deve entrar lá); verificação do projeto em §19 (`verificarProjeto`; conferência nova
+  entra lá como `tipo` em `VF_TIPOS`). Colar do Excel (`lerColagem`, `colarExcel`) fica em §9.
+- Campos de projeto opcionais (sem conversão): `S.params.prazo` (prazo contratual) e `S.verifIgn` (avisos ignorados).
+- Interface: o Arthur prefere não ganhar abas novas. Funções novas entram como botão na barra, janela ou
+  dentro de uma aba existente (ex.: uma futura tabela única de entradas fica dentro de Parâmetros).
 - Janelas: `uiDialog({title, msg, fields, buttons, wide, mono})` (campos `input`, `select` com `opts` ou
   `textarea`); atalhos `ask`, `askText`, `askForm`; avisos com `toast(msg, tipo)` (`alert()` já cai no `toast`). Não usar `prompt`/`confirm` do navegador.
 - Fórmulas: avaliador próprio (`compileExpr`, sem `eval`); identificadores das entradas e parâmetros, mais
@@ -112,5 +116,6 @@ Volga Arthur/
 
 `python testes/rodar.py <index.html>` abre o arquivo num Chromium com o Firebase simulado (nada vai para a
 nuvem), percorre as abas, roda `validarDados()`, compara HH/duração/dias das 38 composições com a referência,
-confere a tela Composições, a busca rápida (Ctrl+K), a leitura do Colar do Excel e a largura em 390 px.
+confere a tela Composições, a busca rápida (Ctrl+K), a leitura do Colar do Excel, a verificação do projeto e a
+largura em 390 px.
 Requisitos em `testes/requisitos.txt`.
