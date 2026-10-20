@@ -1,11 +1,11 @@
 DIMENSIONAMENTO DE HISTOGRAMA — CONTROLE DE VERSÕES
-Atualizado em 20/10/2026 (arquivo 1.12.0)
+Atualizado em 20/10/2026 (arquivo 1.13.0)
 
 REGRA
   1 rodada de melhorias = 1 versão = 1 arquivo index.html + 1 documento para o coordenador.
 
 QUAL ARQUIVO PUBLICAR
-  Versão mais recente: versoes\v1.12.0\index.html
+  Versão mais recente: versoes\v1.13.0\index.html
   Ela já inclui as funções que o Arthur publicou no site (Base de recursos, aviso de impacto,
   observações editáveis, administradores). As versões 1.1.0 a 1.4.0 NÃO têm essas funções.
   NÃO publicar a 1.6.0: ela deixa o app só com civil e esconde as observações (corrigido na 1.6.1).
@@ -35,7 +35,8 @@ ESTRUTURA
     Plano de implantação       ← atalho na pasta v1.9.0; fases 1 a 5, decisões pendentes e riscos
     v1.10.0\index.html        ← encadear composições no Cronograma
     v1.11.0\index.html        ← densidade e uso do espaço
-    v1.12.0\index.html        ← busca rápida (Ctrl+K) e Colar do Excel (mais recente)
+    v1.12.0\index.html        ← busca rápida (Ctrl+K) e Colar do Excel
+    v1.13.0\index.html        ← verificação do projeto (botão Verificar) e prazo contratual (mais recente)
 
   REPOSITÓRIO: https://github.com/OsvaldoSantana/dimensionamento-de-histograma (privado). Cada versão tem
   uma Release com o index.html anexado; a pasta ..\projeto é a cópia de trabalho (git pull para atualizar).
@@ -53,8 +54,8 @@ COMO CONFERIR QUAL VERSÃO ESTÁ PUBLICADA
 
 NUMERAÇÃO (X.Y.Z)
   X — mudança que exige converter os projetos salvos ou impede voltar para versões antigas
-  Y — rodada com funcionalidades novas (próxima: 1.13.0)
-  Z — correção pequena, sem funcionalidade nova (ex.: 1.12.1)
+  Y — rodada com funcionalidades novas (próxima: 1.14.0)
+  Z — correção pequena, sem funcionalidade nova (ex.: 1.13.1)
 
 PARA CRIAR A PRÓXIMA VERSÃO
   1. ANTES de começar, conferir se o index.html do site mudou (o Arthur também publica mudanças).

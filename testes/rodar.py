@@ -18,6 +18,8 @@ O que é conferido:
   5. a tela Composições tem a lista, a busca, a tabela com a coluna "Fórmula" e o botão Copiar na barra.
   6. Ctrl+K abre a busca rápida, acha aba, composição e atividade da base, e Enter executa;
   7. "Colar do Excel" lê código e fórmula (com e sem cabeçalho, número com vírgula, código fora da base).
+  8. a verificação do projeto acha os erros e avisos plantados, o contador do botão Verificar acompanha,
+     "Ignorar" tira o aviso da contagem e o prazo contratual estourado aparece.
 A nuvem (Firebase) é substituída por um simulador: nada é lido nem gravado na base real.
 """
 import asyncio, json, os, re, sys, tempfile
@@ -122,6 +124,21 @@ async def principal(index, atualizar, teste_json):
                         P('Cód.;Quantidade\nCIV-0005;0,30\nCIV-0006;')]}""")
             esperado = ['CIV-0001=12.5 CIV-0002=area*0.3|CIV-9999|1|0', 'CIV-0003=vol*2 CIV-0004=1234.5||0|0', 'CIV-0005=0.30 CIV-0006=1||0|1']
             if col != esperado: falhas.append(f'Colar do Excel: leitura {col} (esperado {esperado})')
+        # 8. verificação do projeto
+        if not await pg.evaluate("()=>typeof verificarProjeto==='function'&&!!document.querySelector('.vf-btn')"):
+            falhas.append('verificação do projeto ausente (função ou botão Verificar)')
+        else:
+            await pg.evaluate("()=>{S.comps.forEach(c=>c.usar=true);const c=S.comps.find(x=>x.id==='limp')||S.comps[0];c.acts[0].f='2*(';c.acts.push({cod:'ZZZ-0001',f:'1'});S.params.prazo='';render()}")
+            await pg.wait_for_timeout(300)
+            v = await pg.evaluate("""()=>{const R=verificarProjeto();const t=k=>R.filter(x=>x.tipo===k).length;
+                const n=document.querySelector('.vf-btn .vf-n');return {form:t('form'),base:t('base'),solta:t('solta'),cls:n.className,txt:n.textContent}}""")
+            if v['form'] != 1 or v['base'] != 1: falhas.append(f'verificação: erros plantados não achados ({v})')
+            if v['cls'] != 'vf-n err' or v['txt'] != '2': falhas.append(f'verificação: contador do botão {v["txt"]} / {v["cls"]} (esperado 2 em vermelho)')
+            ig = await pg.evaluate("()=>{const R=verificarProjeto(),i=R.findIndex(x=>x.ignoravel);vfUlt=R;const a=contaVerif(R).title;verifIgnorar(i,true);closeDialog();return [a,contaVerif(verificarProjeto()).title,S.verifIgn.length]}")
+            if ig[0] == ig[1] or ig[2] != 1: falhas.append(f'verificação: Ignorar não tirou o aviso da contagem ({ig})')
+            pz = await pg.evaluate("()=>{const d=pd(S.params.start);d.setDate(d.getDate()+3);S.params.prazo=iso(d);return verificarProjeto().filter(x=>x.tipo==='prazo').length}")
+            if pz != 1: falhas.append('verificação: prazo contratual estourado não apontado')
+        await pg.evaluate("()=>{S=migrate(defaults());sel=null;resetHistory&&resetHistory();setTab('comp')}")
         # 4. celular
         await pg.set_viewport_size({'width': 390, 'height': 844})
         for aba in ABAS:
