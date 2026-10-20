@@ -1,0 +1,271 @@
+{
+ "versao": "1.9.0",
+ "composicoes": {
+  "malha": {
+   "nome": "Malha de aterramento",
+   "hh_mo": 1221.12,
+   "hh_eq": 146.42,
+   "dur_h": 387.8,
+   "dias": 50
+  },
+  "cant": {
+   "nome": "Canteiro de obras padrão",
+   "hh_mo": 717.1,
+   "hh_eq": 1.55,
+   "dur_h": 414.52,
+   "dias": 54
+  },
+  "limp": {
+   "nome": "Limpeza do terreno",
+   "hh_mo": 7.5,
+   "hh_eq": 7.5,
+   "dur_h": 3.75,
+   "dias": 1
+  },
+  "terra": {
+   "nome": "Terraplanagem",
+   "hh_mo": 12.27,
+   "hh_eq": 17.36,
+   "dur_h": 8.68,
+   "dias": 2
+  },
+  "loc": {
+   "nome": "Locação da obra e gabarito",
+   "hh_mo": 195.6,
+   "hh_eq": 0,
+   "dur_h": 65.2,
+   "dias": 9
+  },
+  "calc": {
+   "nome": "Calçadas",
+   "hh_mo": 0,
+   "hh_eq": 0,
+   "dur_h": 0,
+   "dias": 0
+  },
+  "brit": {
+   "nome": "Revestimento de pátio com brita",
+   "hh_mo": 221.3,
+   "hh_eq": 6.2,
+   "dur_h": 157.9,
+   "dias": 21
+  },
+  "pav": {
+   "nome": "Pavimentação intertravada",
+   "hh_mo": 233.6,
+   "hh_eq": 28.5,
+   "dur_h": 117.3,
+   "dias": 16
+  },
+  "cerca": {
+   "nome": "Cerca perimetral e portão",
+   "hh_mo": 354.58,
+   "hh_eq": 0,
+   "dur_h": 200.73,
+   "dias": 26
+  },
+  "spda": {
+   "nome": "SPDA",
+   "hh_mo": 61.6,
+   "hh_eq": 58.41,
+   "dur_h": 89.48,
+   "dias": 12
+  },
+  "secc": {
+   "nome": "Chave seccionadora",
+   "hh_mo": 16.96,
+   "hh_eq": 12.3,
+   "dur_h": 25.07,
+   "dias": 4
+  },
+  "supo": {
+   "nome": "Montagem de suportes",
+   "hh_mo": 0,
+   "hh_eq": 71.59,
+   "dur_h": 71.59,
+   "dias": 10
+  },
+  "barr": {
+   "nome": "Barramento aéreo",
+   "hh_mo": 30.14,
+   "hh_eq": 29.1,
+   "dur_h": 48.22,
+   "dias": 7
+  },
+  "cabos": {
+   "nome": "Lançamento de cabos e terminais",
+   "hh_mo": 370.19,
+   "hh_eq": 0,
+   "dur_h": 188.98,
+   "dias": 25
+  },
+  "bt": {
+   "nome": "Instalações elétricas BT (tomadas e refletores)",
+   "hh_mo": 494.98,
+   "hh_eq": 0,
+   "dur_h": 247.51,
+   "dias": 32
+  },
+  "hvac": {
+   "nome": "HVAC (ar-condicionado)",
+   "hh_mo": 8.34,
+   "hh_eq": 0,
+   "dur_h": 4.17,
+   "dias": 1
+  },
+  "sdai": {
+   "nome": "SDAI (detecção e alarme de incêndio)",
+   "hh_mo": 77.13,
+   "hh_eq": 0,
+   "dur_h": 50.62,
+   "dias": 7
+  },
+  "cftv": {
+   "nome": "CFTV",
+   "hh_mo": 0.63,
+   "hh_eq": 0,
+   "dur_h": 0.39,
+   "dias": 1
+  },
+  "poste": {
+   "nome": "Base de poste de equipamentos (TC/TP/PR/SECC.)",
+   "hh_mo": 9.42,
+   "hh_eq": 1.43,
+   "dur_h": 7.49,
+   "dias": 1
+  },
+  "bspda": {
+   "nome": "Base para barramento e SPDA (poste 14 m)",
+   "hh_mo": 38.69,
+   "hh_eq": 3.42,
+   "dur_h": 29.17,
+   "dias": 4
+  },
+  "trafocon": {
+   "nome": "Base e bacia de transformador de força (bacia em concreto armado)",
+   "hh_mo": 375.61,
+   "hh_eq": 8.81,
+   "dur_h": 255.49,
+   "dias": 33
+  },
+  "trafoalv": {
+   "nome": "Base e bacia de transformador de força (bacia em alvenaria)",
+   "hh_mo": 276.55,
+   "hh_eq": 4.81,
+   "dur_h": 167.49,
+   "dias": 22
+  },
+  "eletro": {
+   "nome": "Base de eletrocentro (radier com canaletas)",
+   "hh_mo": 261.78,
+   "hh_eq": 5.63,
+   "dur_h": 169.81,
+   "dias": 22
+  },
+  "disj": {
+   "nome": "Base de disjuntor com escada de acesso",
+   "hh_mo": 42.52,
+   "hh_eq": 1.69,
+   "dur_h": 29.2,
+   "dias": 4
+  },
+  "cpm": {
+   "nome": "Caixas de passagem de cabos",
+   "hh_mo": 231.59,
+   "hh_eq": 9.03,
+   "dur_h": 159.16,
+   "dias": 21
+  },
+  "canc": {
+   "nome": "Canaleta para cabos de controle",
+   "hh_mo": 242.89,
+   "hh_eq": 12.04,
+   "dur_h": 123.96,
+   "dias": 16
+  },
+  "banco": {
+   "nome": "Banco de dutos em PEAD",
+   "hh_mo": 333.78,
+   "hh_eq": 8.95,
+   "dur_h": 285.48,
+   "dias": 37
+  },
+  "sarj": {
+   "nome": "Caixa de sarjeta com grelha",
+   "hh_mo": 9.06,
+   "hh_eq": 0,
+   "dur_h": 6.14,
+   "dias": 1
+  },
+  "td1": {
+   "nome": "Trincheira drenante TD1",
+   "hh_mo": 98.65,
+   "hh_eq": 21.49,
+   "dur_h": 58.15,
+   "dias": 8
+  },
+  "td2": {
+   "nome": "Trincheira drenante TD2",
+   "hh_mo": 0.27,
+   "hh_eq": 0.1,
+   "dur_h": 0.18,
+   "dias": 1
+  },
+  "mcana": {
+   "nome": "Canaleta meia-cana",
+   "hh_mo": 2.5,
+   "hh_eq": 0,
+   "dur_h": 2.25,
+   "dias": 1
+  },
+  "mur": {
+   "nome": "Mureta de pedra",
+   "hh_mo": 7.31,
+   "hh_eq": 0.19,
+   "dur_h": 5.85,
+   "dias": 1
+  },
+  "cd1": {
+   "nome": "Caixa de drenagem pluvial CD-1",
+   "hh_mo": 17.38,
+   "hh_eq": 0.25,
+   "dur_h": 13.33,
+   "dias": 2
+  },
+  "oleo": {
+   "nome": "Drenagem de óleo",
+   "hh_mo": 37.49,
+   "hh_eq": 0.16,
+   "dur_h": 21.99,
+   "dias": 3
+  },
+  "ext": {
+   "nome": "Abrigo para extintor",
+   "hh_mo": 66.51,
+   "hh_eq": 0.14,
+   "dur_h": 47.22,
+   "dias": 7
+  },
+  "ccom": {
+   "nome": "Casa de comando em alvenaria",
+   "hh_mo": 310.58,
+   "hh_eq": 3.32,
+   "dur_h": 208.03,
+   "dias": 27
+  },
+  "cmed": {
+   "nome": "Casa de medição em alvenaria",
+   "hh_mo": 107.98,
+   "hh_eq": 0.82,
+   "dur_h": 73.65,
+   "dias": 10
+  },
+  "pcf": {
+   "nome": "Parede corta-fogo",
+   "hh_mo": 38.37,
+   "hh_eq": 7.24,
+   "dur_h": 31.46,
+   "dias": 5
+  }
+ }
+}

@@ -1,0 +1,65 @@
+DIMENSIONAMENTO DE HISTOGRAMA — CONTROLE DE VERSÕES
+Atualizado em 20/10/2026 (arquivo 1.9.0)
+
+REGRA
+  1 rodada de melhorias = 1 versão = 1 arquivo index.html + 1 documento para o coordenador.
+
+QUAL ARQUIVO PUBLICAR
+  Versão mais recente: versoes\v1.9.0\index.html
+  Ela já inclui as funções que o Arthur publicou no site (Base de recursos, aviso de impacto,
+  observações editáveis, administradores). As versões 1.1.0 a 1.4.0 NÃO têm essas funções.
+  NÃO publicar a 1.6.0: ela deixa o app só com civil e esconde as observações (corrigido na 1.6.1).
+  O index.html solto na pasta "Volga Arthur" é o ORIGINAL, sem alterações (igual a v1.0.0).
+
+ESTRUTURA
+  versoes\
+    LEIA-ME.txt               ← este arquivo
+    HISTORICO_TECNICO.md      ← detalhes técnicos de cada versão (uso interno, não enviar ao coordenador)
+    v1.0.0\index.html         ← cópia do original recebido
+    publicado-2026-10-19\index.html ← cópia exata do que estava no site em 19/10/2026 (original + mudanças do
+                                 Arthur, base v22). É o arquivo para VOLTAR se a 1.5.0 precisar sair do ar.
+    v1.1.0\index.html         ← segurança, desempenho, calendário, praticabilidade INMET, cronograma
+    v1.2.0\index.html         ← telas proporcionais e versão para celular
+    v1.3.0\index.html         ← identidade Volga, janelas do próprio app, tabelas e linha do tempo
+    v1.4.0\index.html         ← histograma, tabelas mensais, bases de atividades e composições, situação do salvamento
+    v1.5.0\index.html         ← barra verde com logo branco, funções do Arthur, composições revisadas, CIV-0128
+    v1.5.1\index.html         ← copiar tabela, marcas de auditoria nas composições
+    v1.6.0\index.html         ← revisões de composições do Osvaldo (versão de teste, só civil — não publicar)
+    v1.6.1\index.html         ← 1.6.0 corrigida: todas as disciplinas, observações, atividades com coeficientes
+    v1.7.0\index.html         ← terraplanagem nova, parâmetros com nome, entradas compactas, revisão da civil
+    v1.7.0\Revisão da civil    ← atalho; fontes e quantidades de cada atividade de civil e correções pedidas na base
+    v1.8.0\index.html         ← lista com cores por disciplina, tabela de atividades, sem avisos, pendências decididas
+    v1.8.0\TESTE_composicoes_civil_v1.8.0.json ← importar no projeto TESTE (abrindo o index da 1.8.0)
+    Diagnóstico do app         ← atalho na pasta v1.8.0; arquitetura, fluxo com IA, UI/UX e roteiro de versões
+    v1.9.0\index.html         ← título e indicadores em destaque; dados legíveis, verificação e testes por dentro (mais recente)
+    Plano de implantação       ← atalho na pasta v1.9.0; fases 1 a 5, decisões pendentes e riscos
+
+  A FONTE DE TRABALHO agora é a pasta ..\projeto (index.html, CLAUDE.md, testes). Versões novas nascem lá
+  e são copiadas para cá quando prontas.
+    vX.Y.Z\Documento da versão X.Y.Z (para o coordenador)   ← atalho; abre o documento, que pode ser baixado em PDF ou Word
+    v1.5.0\Roteiro de prints das composições revisadas      ← atalho; lista do que printar e os valores esperados
+
+COMO CONFERIR QUAL VERSÃO ESTÁ PUBLICADA
+  O número no topo do app (ex.: "v22 · novidades") segue a numeração do sistema do Arthur: é a
+  revisão da base de atividades e sobe sozinho a cada edição da base.
+  O ARQUIVO publicado tem um número fixo (X.Y.Z), que dá nome às pastas abaixo. Ele aparece em
+  Novidades ("Atualização de dd/mm/aaaa · arquivo X.Y.Z") e na primeira linha do index.html.
+
+NUMERAÇÃO (X.Y.Z)
+  X — mudança que exige converter os projetos salvos ou impede voltar para versões antigas
+  Y — rodada com funcionalidades novas (próxima: 1.10.0)
+  Z — correção pequena, sem funcionalidade nova (ex.: 1.9.1)
+
+PARA CRIAR A PRÓXIMA VERSÃO
+  1. ANTES de começar, conferir se o index.html do site mudou (o Arthur também publica mudanças).
+     Se mudou, levar as mudanças dele para a nova versão, como foi feito na 1.5.0.
+  2. Partir sempre do index.html da versão mais recente.
+  3. Atualizar em 3 lugares: comentário da 1ª linha, APP_VERSION e acrescentar a atualização no topo
+     da lista NOVIDADES (itens em linguagem de usuário), SEM apagar as versões anteriores da lista.
+     Usar só X.Y.Z em APP_VERSION (sem sufixo). O número do topo da tela vem sozinho da base.
+  4. Criar a pasta versoes\vX.Y.Z com o index.html novo e o atalho do documento.
+  5. Registrar os detalhes técnicos em HISTORICO_TECNICO.md.
+
+PARA VOLTAR UMA VERSÃO
+  Publicar o index.html de versoes\publicado-2026-10-19 (o que estava no ar antes da 1.5.0; o site ainda está nele em 20/10).
+  O documento da versão explica o que deixa de valer ao voltar.
