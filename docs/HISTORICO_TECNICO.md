@@ -18,8 +18,20 @@ Restrição de todas as versões: arquivo único `index.html`, sem build e sem d
 | 1.7.0 | 323.984 bytes | dec7533b02a30e88 | 1.6.1 + terraplanagem, parâmetros com nome, entradas compactas, revisão da civil (gerada por `v170.py`) |
 | 1.8.0 | 325.128 bytes | 412102b1691b47ef | 1.7.0 + lista/tabela/cores, sem avisos, pendências decididas (gerada por `v180.py`) |
 | 1.9.0 | 332.927 bytes | ce84cdb6b8f8e106 | 1.8.0 + cabeçalho em destaque, dados em blocos JSON, índice, validarDados, testes (gerada por `v190.py`; última gerada por script) |
+| 1.10.0 | ver Release v1.10.0 | ver etiqueta | 1.9.0 + encadear composições no Cronograma (editada direto no repositório) |
 
 ---
+
+## 1.10.0 — 20/10/2026 · Encadear composições
+
+Primeira versão feita direto no repositório (ramo `versao/1.10.0`, PR para `main`).
+
+- Cronograma: coluna de seleção (`td.sel`, `cronSel` — fora do projeto, não salva, não entra no desfazer) com "selecionar todas" no cabeçalho; botão "Encadear selecionadas (n)", desabilitado com menos de 2.
+- `encadear()`: ordem da lista; a 1ª mantém as predecessoras; da 2ª em diante `preds=[{id:anterior,t,lag}]` (substitui); todas `usar=true`; checagem de ciclo com `dependsOn(c,c.id)` em todas — se houver, desfaz e avisa; `syncLegacyPred`; toast. Ctrl+Z desfaz (histórico do render).
+- `uiDialog`: campos com `opts` viram `<select>` (tipo de vínculo); `vals`, Tab e foco incluem select.
+- CSS de `table.cron` com `nth-child` deslocado em 1 pela coluna nova (composição 4, predecessoras 9, início fixo 10).
+- "Marcar todas"/"Limpar seleção" renomeados para "Usar todas"/"Não usar nenhuma" (agem só na coluna Usar).
+- Testes: `testes/rodar.py` OK contra a referência da 1.9.0 (nenhum número de composição mudou); teste do recurso: 3 selecionadas com II +2 → "3II+2", "4II+2"; predecessora existente substituída; Ctrl+Z restaura; ciclo bloqueado; 390 px sem rolagem.
 
 ## 1.9.0 — 20/10/2026 · Cabeçalho em destaque e base de engenharia
 
