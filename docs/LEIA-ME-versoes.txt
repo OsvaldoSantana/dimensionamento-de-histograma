@@ -1,11 +1,11 @@
 DIMENSIONAMENTO DE HISTOGRAMA — CONTROLE DE VERSÕES
-Atualizado em 20/10/2026 (arquivo 1.9.0)
+Atualizado em 20/10/2026 (arquivo 1.12.0)
 
 REGRA
   1 rodada de melhorias = 1 versão = 1 arquivo index.html + 1 documento para o coordenador.
 
 QUAL ARQUIVO PUBLICAR
-  Versão mais recente: versoes\v1.9.0\index.html
+  Versão mais recente: versoes\v1.12.0\index.html
   Ela já inclui as funções que o Arthur publicou no site (Base de recursos, aviso de impacto,
   observações editáveis, administradores). As versões 1.1.0 a 1.4.0 NÃO têm essas funções.
   NÃO publicar a 1.6.0: ela deixa o app só com civil e esconde as observações (corrigido na 1.6.1).
@@ -31,8 +31,14 @@ ESTRUTURA
     v1.8.0\index.html         ← lista com cores por disciplina, tabela de atividades, sem avisos, pendências decididas
     v1.8.0\TESTE_composicoes_civil_v1.8.0.json ← importar no projeto TESTE (abrindo o index da 1.8.0)
     Diagnóstico do app         ← atalho na pasta v1.8.0; arquitetura, fluxo com IA, UI/UX e roteiro de versões
-    v1.9.0\index.html         ← título e indicadores em destaque; dados legíveis, verificação e testes por dentro (mais recente)
+    v1.9.0\index.html         ← título e indicadores em destaque; dados legíveis, verificação e testes por dentro
     Plano de implantação       ← atalho na pasta v1.9.0; fases 1 a 5, decisões pendentes e riscos
+    v1.10.0\index.html        ← encadear composições no Cronograma
+    v1.11.0\index.html        ← densidade e uso do espaço
+    v1.12.0\index.html        ← busca rápida (Ctrl+K) e Colar do Excel (mais recente)
+
+  REPOSITÓRIO: https://github.com/OsvaldoSantana/dimensionamento-de-histograma (privado). Cada versão tem
+  uma Release com o index.html anexado; a pasta ..\projeto é a cópia de trabalho (git pull para atualizar).
 
   A FONTE DE TRABALHO agora é a pasta ..\projeto (index.html, CLAUDE.md, testes). Versões novas nascem lá
   e são copiadas para cá quando prontas.
@@ -47,8 +53,8 @@ COMO CONFERIR QUAL VERSÃO ESTÁ PUBLICADA
 
 NUMERAÇÃO (X.Y.Z)
   X — mudança que exige converter os projetos salvos ou impede voltar para versões antigas
-  Y — rodada com funcionalidades novas (próxima: 1.10.0)
-  Z — correção pequena, sem funcionalidade nova (ex.: 1.9.1)
+  Y — rodada com funcionalidades novas (próxima: 1.13.0)
+  Z — correção pequena, sem funcionalidade nova (ex.: 1.12.1)
 
 PARA CRIAR A PRÓXIMA VERSÃO
   1. ANTES de começar, conferir se o index.html do site mudou (o Arthur também publica mudanças).
