@@ -16,6 +16,8 @@ O que é conferido:
      aos de testes/referencia.json (tolerância 0,05);
   4. em 390 px de largura nenhuma aba tem rolagem lateral;
   5. a tela Composições tem a lista, a busca, a tabela com a coluna "Fórmula" e o botão Copiar na barra.
+  6. Ctrl+K abre a busca rápida, acha aba, composição e atividade da base, e Enter executa;
+  7. "Colar do Excel" lê código e fórmula (com e sem cabeçalho, número com vírgula, código fora da base).
 A nuvem (Firebase) é substituída por um simulador: nada é lido nem gravado na base real.
 """
 import asyncio, json, os, re, sys, tempfile
@@ -95,6 +97,31 @@ async def principal(index, atualizar, teste_json):
         for k, msg in (('busca', 'sem campo de busca'), ('formula', 'tabela sem a coluna Fórmula'), ('copiar', 'Copiar tabela fora da barra'), ('titulo', 'sem título da composição')):
             if not ui[k]: falhas.append('tela Composições: ' + msg)
         if ui['faixa'] != 3: falhas.append('tela Composições: faixa de indicadores com %d itens' % ui['faixa'])
+        # 6 e 7. busca rápida (Ctrl+K) e Colar do Excel
+        if not await pg.evaluate("()=>!!document.getElementById('cmdk')&&typeof lerColagem==='function'"):
+            falhas.append('busca rápida (Ctrl+K) ou Colar do Excel ausente')
+        else:
+            await pg.keyboard.press('Control+k'); await pg.wait_for_timeout(60)
+            k1 = await pg.evaluate("()=>[!document.getElementById('cmdk').hidden,document.activeElement&&document.activeElement.id]")
+            if k1 != [True, 'cmdk-q']: falhas.append('Ctrl+K não abriu a busca rápida com o cursor na caixa')
+            await pg.keyboard.type('cronog'); await pg.wait_for_timeout(40); await pg.keyboard.press('Enter'); await pg.wait_for_timeout(80)
+            if await pg.evaluate("()=>[tab,document.getElementById('cmdk').hidden].join()") != 'cron,true': falhas.append('busca rápida: "cronog" + Enter não abriu a aba Cronograma')
+            nome = await pg.evaluate("()=>S.comps[S.comps.length-1].nome")
+            await pg.keyboard.press('Control+k'); await pg.keyboard.type(nome); await pg.wait_for_timeout(40); await pg.keyboard.press('Enter'); await pg.wait_for_timeout(80)
+            if await pg.evaluate("()=>tab+'|'+cur().nome") != 'comp|' + nome: falhas.append('busca rápida: não abriu a composição pelo nome')
+            n0 = await pg.evaluate("()=>cur().acts.length")
+            await pg.keyboard.press('Control+k'); await pg.keyboard.type('civ-0001'); await pg.wait_for_timeout(40); await pg.keyboard.press('Enter'); await pg.wait_for_timeout(80)
+            if await pg.evaluate(f"()=>cur().acts.length-{n0}+'|'+cur().acts.at(-1).cod") != '1|CIV-0001': falhas.append('busca rápida: não adicionou a atividade da base')
+            await pg.keyboard.press('Control+z'); await pg.wait_for_timeout(60)
+            await pg.keyboard.press('Control+k'); await pg.keyboard.press('Escape'); await pg.wait_for_timeout(40)
+            if not await pg.evaluate("()=>document.getElementById('cmdk').hidden"): falhas.append('busca rápida: Esc não fechou')
+            # 7. colar do Excel (leitura)
+            col = await pg.evaluate(r"""()=>{const c={inputs:[{k:'area'}],vars:[{k:'vol'}]};const P=t=>{const r=lerColagem(t,c);return r.ok.map(x=>x.cod+'='+x.f).join(' ')+'|'+r.fora.join(',')+'|'+r.sem+'|'+r.semQtd};
+                return [P('CIV-0001\tEscavação\tm3\t12,5\nCIV-0002\tx\tm2\tarea*0.3\nCIV-9999\t1\nTotal\t\t99'),
+                        P('Código\tAtividade\tFórmula\tQtd.\nCIV-0003\tA\tvol*2\t40\nciv-0004\tB\t1.234,5\t1'),
+                        P('Cód.;Quantidade\nCIV-0005;0,30\nCIV-0006;')]}""")
+            esperado = ['CIV-0001=12.5 CIV-0002=area*0.3|CIV-9999|1|0', 'CIV-0003=vol*2 CIV-0004=1234.5||0|0', 'CIV-0005=0.30 CIV-0006=1||0|1']
+            if col != esperado: falhas.append(f'Colar do Excel: leitura {col} (esperado {esperado})')
         # 4. celular
         await pg.set_viewport_size({'width': 390, 'height': 844})
         for aba in ABAS:

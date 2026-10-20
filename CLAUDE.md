@@ -58,8 +58,12 @@ Volga Arthur/
     `{k, l, u, d, o?}`), `vars` (parâmetros `[identificador, fórmula, nome]`), `acts` (`{cod, q}`; `cod` pode
     ser `{by, map}` para escolha por entrada), `notas`.
   - `dados-nomes-antigos` — nomes de parâmetros de versões antigas (projetos salvos).
-- **Script principal**: índice no topo; seções `§1` a `§17` (procure "═══ §"). Cálculo puro em §3–§5
-  (`compEval`, `compCalc`, `schedule`, `histo`); telas em §6–§12; nuvem em §13–§15; `validarDados()` em §16.
+- **Script principal**: índice no topo; seções `§1` a `§18` (procure "═══ §"). Cálculo puro em §3–§5
+  (`compEval`, `compCalc`, `schedule`, `histo`); telas em §6–§12; nuvem em §13–§15; `validarDados()` em §16;
+  copiar tabela em §17; busca rápida Ctrl+K em §18 (`cmdkFontes` lista o que pode ser buscado — ação nova
+  que o usuário repete deve entrar lá). Colar do Excel (`lerColagem`, `colarExcel`) fica em §9.
+- Janelas: `uiDialog({title, msg, fields, buttons, wide, mono})` (campos `input`, `select` com `opts` ou
+  `textarea`); atalhos `ask`, `askText`, `askForm`; avisos com `toast(msg, tipo)` (`alert()` já cai no `toast`). Não usar `prompt`/`confirm` do navegador.
 - Fórmulas: avaliador próprio (`compileExpr`, sem `eval`); identificadores das entradas e parâmetros, mais
   `sqrt ceil floor max min PI` e `+ - * / ** ( ) < > ? :`.
 - Disciplinas e cores: `DISC_COR` / `discKey()` (civil terracota, eletromecânica azul, instalações âmbar,
@@ -76,6 +80,8 @@ Volga Arthur/
 6. Copiar para `versoes/vX.Y.Z/index.html`; documento da versão (Claude Docs) + atalho `.url` na pasta;
    atualizar `versoes/LEIA-ME.txt`, `versoes/HISTORICO_TECNICO.md` e `docs/HISTORICO_TECNICO.md`.
 7. PR para `main`; merge com testes verdes; etiqueta anotada `vX.Y.Z`; Release com o `index.html` anexado.
+   A sessão de IA abre o PR pela API; o merge, a etiqueta e a Release são feitos pelo Osvaldo no PowerShell
+   (a sessão recebe 403 para enviar etiquetas e criar Releases) — entregar os comandos prontos.
 8. Conferir em 1.366 px e 390 px (os testes já verificam rolagem lateral).
 
 ## Fluxo Git (repositório privado OsvaldoSantana/dimensionamento-de-histograma)
@@ -106,4 +112,5 @@ Volga Arthur/
 
 `python testes/rodar.py <index.html>` abre o arquivo num Chromium com o Firebase simulado (nada vai para a
 nuvem), percorre as abas, roda `validarDados()`, compara HH/duração/dias das 38 composições com a referência,
-confere a tela Composições e a largura em 390 px. Requisitos em `testes/requisitos.txt`.
+confere a tela Composições, a busca rápida (Ctrl+K), a leitura do Colar do Excel e a largura em 390 px.
+Requisitos em `testes/requisitos.txt`.
