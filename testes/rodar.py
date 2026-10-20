@@ -20,6 +20,9 @@ O que é conferido:
   7. "Colar do Excel" lê código e fórmula (com e sem cabeçalho, número com vírgula, código fora da base).
   8. a verificação do projeto acha os erros e avisos plantados, o contador do botão Verificar acompanha,
      "Ignorar" tira o aviso da contagem e o prazo contratual estourado aparece.
+  9. desempenho no cenário-alvo (38 composições no cronograma, ~2 anos): tempo de desenhar cada aba e de
+     filtrar a Base dentro do limite, quantidade de elementos por aba dentro do limite, e números formatados
+     iguais aos do navegador. Os tempos medidos são impressos a cada execução (linha "DESEMPENHO").
 A nuvem (Firebase) é substituída por um simulador: nada é lido nem gravado na base real.
 """
 import asyncio, json, os, re, sys, tempfile
@@ -138,6 +141,28 @@ async def principal(index, atualizar, teste_json):
             if ig[0] == ig[1] or ig[2] != 1: falhas.append(f'verificação: Ignorar não tirou o aviso da contagem ({ig})')
             pz = await pg.evaluate("()=>{const d=pd(S.params.start);d.setDate(d.getDate()+3);S.params.prazo=iso(d);return verificarProjeto().filter(x=>x.tipo==='prazo').length}")
             if pz != 1: falhas.append('verificação: prazo contratual estourado não apontado')
+        await pg.evaluate("()=>{S=migrate(defaults());sel=null;resetHistory&&resetHistory();setTab('comp')}")
+        # 9. desempenho: limites com folga de 4 a 8 vezes sobre o medido na 1.13.1 (comp 15, cron 51, hist 26, base 26 ms;
+        #    busca 1 ms), para não falhar em máquina mais lenta (como a do GitHub) e ainda pegar uma piora de verdade.
+        LIM_MS = {'comp': 120, 'cron': 300, 'hist': 200, 'base': 200}
+        LIM_EL = {'comp': 900, 'cron': 2300, 'hist': 2000, 'base': 4200}
+        await pg.evaluate("()=>{S.comps.forEach((c,i)=>{c.usar=true;c.preds=i?[{id:S.comps[i-1].id,t:'TI',lag:0}]:[]});sel=S.comps[0].id;render()}")
+        med = {}
+        for aba in LIM_MS:
+            r = await pg.evaluate("""aba=>{setTab(aba);const t=[];for(let i=0;i<5;i++){const a=performance.now();render();document.body.offsetHeight;t.push(performance.now()-a)}
+                t.sort((x,y)=>x-y);return t[2]}""", aba)
+            await pg.wait_for_timeout(200)
+            el = await pg.evaluate("()=>document.querySelectorAll('#main *').length")
+            med[aba] = (round(r), el)
+            if r > LIM_MS[aba]: falhas.append(f'desempenho: aba {aba} levou {r:.0f} ms para desenhar (limite {LIM_MS[aba]} ms)')
+            if el > LIM_EL[aba]: falhas.append(f'desempenho: aba {aba} com {el} elementos (limite {LIM_EL[aba]})')
+        bq = await pg.evaluate("""()=>{setTab('base');const t=[];for(const q of ['c','co','con','conc','concr']){filt.q=q;const a=performance.now();baseRows();document.body.offsetHeight;t.push(performance.now()-a)}
+            filt.q='';t.sort((x,y)=>x-y);return t[2]}""")
+        if bq > 25: falhas.append(f'desempenho: cada tecla na busca da Base levou {bq:.0f} ms (limite 25 ms)')
+        dif = await pg.evaluate("""()=>{const V=[0,1,1.5,12.345,999.95,1234.5,91572.5,-3.25,1e6,0.004];const r=[];for(const v of V)for(const d of [0,1,2]){
+            const ref=Number(v).toLocaleString('pt-BR',{minimumFractionDigits:d,maximumFractionDigits:d}).replace(/\\./g,'\\u202f');if(fmt(v,d)!==ref)r.push(v+'/'+d)}return r}""")
+        if dif: falhas.append(f'desempenho: formatação de números diferente do navegador em {dif}')
+        print('DESEMPENHO', ' · '.join(f'{k} {v[0]} ms/{v[1]} elementos' for k, v in med.items()), f'· tecla na busca da Base {bq:.0f} ms')
         await pg.evaluate("()=>{S=migrate(defaults());sel=null;resetHistory&&resetHistory();setTab('comp')}")
         # 4. celular
         await pg.set_viewport_size({'width': 390, 'height': 844})
